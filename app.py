@@ -1,7 +1,11 @@
+import logging
+from datetime import datetime
 
 import streamlit as st
 import pandas as pd
 import joblib
+
+logging.basicConfig(filename='log_app.log', level=logging.INFO)
 
 # Cargar modelo previamente entrenado
 model = joblib.load('model.pkl')
@@ -31,3 +35,5 @@ if st.button("Predecir"):
     prediction = model.predict(X)[0]
     resultado = "Compra" if prediction else "No Compra"
     st.success(f"Resultado: {resultado}")
+
+    logging.info(f"{datetime.now()} - Inputs: {X.values.tolist()} - Predicción: {resultado}")
